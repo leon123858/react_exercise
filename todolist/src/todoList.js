@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import TodoItem from './todoItem';
+import './style.css';
 
 class todoList extends Component {
 	constructor(props) {
@@ -12,42 +14,60 @@ class todoList extends Component {
 		return (
 			<Fragment>
 				<div>
+					<label htmlFor='inputArea'>input something</label>
 					<input
+						id='inputArea'
+						className='input'
 						value={this.state.inputWord}
 						onChange={this.changeInputWord}
 					></input>
 					<button onClick={this.clickBtn}>提交</button>
 				</div>
-				<ul>
-					{this.state.list.map((item, index) => {
-						return (
-							<li key={index} onClick={(e) => this.deleteItem(index)}>
-								{item}
-							</li>
-						);
-					})}
-				</ul>
+				<ul>{this.getTodoItems()}</ul>
 			</Fragment>
 		);
 	}
+
+	getTodoItems = () => {
+		// <li
+		// 	key={index}
+		// 	onClick={(e) => this.deleteItem(index)}
+		// 	dangerouslySetInnerHTML={{ __html: item }}
+		// ></li>;
+		return this.state.list.map((item, index) => {
+			return (
+				<TodoItem
+					key={index}
+					content={item}
+					index={index}
+					deleteFunc={this.deleteItem}
+				/>
+			);
+		});
+	};
+
 	changeInputWord = (e) => {
-		this.setState({
-			inputWord: e.target.value,
+		this.setState(() => {
+			return {
+				inputWord: e.target.value,
+			};
 		});
 	};
 	clickBtn = () => {
-		const { inputWord } = this.state;
-		const list = [...this.state.list, inputWord];
-		this.setState({
-			inputWord: '',
-			list: list,
+		this.setState((prevStage) => {
+			const { inputWord, list } = prevStage;
+			const duplicateList = [...list, inputWord];
+			return {
+				inputWord: '',
+				list: duplicateList,
+			};
 		});
 	};
 	deleteItem = (index) => {
-		const list = [...this.state.list];
-		list.splice(index, 1);
-		this.setState({
-			list: list,
+		this.setState((prevStage) => {
+			const list = [...prevStage.list];
+			list.splice(index, 1);
+			return { list: list };
 		});
 	};
 }
