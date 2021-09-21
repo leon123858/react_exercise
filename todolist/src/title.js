@@ -1,27 +1,53 @@
 import React, { Component, Fragment } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './style.css';
 class title extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			Title: 'title',
+			Title: 'todoList',
 			isShow: true,
+			list: [],
 		};
 	}
 	render() {
-		const { Title, isShow } = this.state;
 		return (
 			<Fragment>
-				<h1 className={isShow ? 'show' : 'hide'}>{Title}</h1>
+				{this.getTitleGroup()}
 				<button onClick={this.clickBtn}>動畫</button>
 			</Fragment>
 		);
 	}
 
+	getTitleGroup = () => {
+		const { isShow, list } = this.state;
+		return (
+			<TransitionGroup>
+				{list.map((element, index) => {
+					return (
+						<CSSTransition
+							in={isShow}
+							timeout={1000}
+							classNames='fade'
+							unmountOnExit
+							onEnter={(element) => {
+								element.style.color = 'blue';
+							}}
+							appear={true}
+						>
+							<h1 key={index}>{element}</h1>
+						</CSSTransition>
+					);
+				})}
+			</TransitionGroup>
+		);
+	};
+
 	clickBtn = () => {
-		this.setState((prevStage) => {
+		const { Title, list } = this.state;
+		this.setState(() => {
 			return {
-				isShow: prevStage.isShow ? false : true,
+				list: [...list, Title],
 			};
 		});
 	};

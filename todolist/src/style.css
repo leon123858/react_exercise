@@ -39,3 +39,25 @@
 		color: blue;
 	}
 }
+
+/* react-transition-group 抓取的 CSS  */
+.fade-enter {
+	opacity: 0;
+}
+
+.fade-enter-active {
+	opacity: 1;
+	transition: ease-in 1s;
+}
+/* do not need it now */
+/* .fade-enter-done {
+}
+.fade-exit {
+	opacity: 1;
+}
+.fade-exit-active {
+	opacity: 0;
+	transition: ease-in 1s;
+}
+.fade-exit-done {
+} */
