@@ -2,3 +2,40 @@
 	border-width: 2px;
 	border-color: red;
 }
+
+.hide {
+	animation: hide-animate 2s ease-in forwards;
+}
+.show {
+	animation: show-animate 2s ease-in forwards;
+}
+
+@keyframes show-animate {
+	0% {
+		opacity: 0;
+		color: red;
+	}
+	50% {
+		opacity: 0.5;
+		color: greenyellow;
+	}
+	100% {
+		opacity: 1;
+		color: blue;
+	}
+}
+
+@keyframes hide-animate {
+	0% {
+		opacity: 1;
+		color: red;
+	}
+	50% {
+		opacity: 0.5;
+		color: greenyellow;
+	}
+	100% {
+		opacity: 0;
+		color: blue;
+	}
+}

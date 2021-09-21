@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import TodoItem from './todoItem';
+import axios from 'axios';
 import './style.css';
 
 class todoList extends Component {
@@ -26,6 +27,23 @@ class todoList extends Component {
 				<ul>{this.getTodoItems()}</ul>
 			</Fragment>
 		);
+	}
+	// 生命週期函數, 當組件完成掛載後執行
+	componentDidMount() {
+		// 這裡會放一些 AJAX 來獲取填充 render 內容的資訊
+		// 僅在掛載時會執行一次
+		axios
+			.get('http://127.0.0.1:1337/getFile/json.json')
+			.then((res) => {
+				this.setState(() => {
+					return {
+						list: [...res.data],
+					};
+				});
+			})
+			.catch(() => {
+				console.log('fetch error');
+			});
 	}
 
 	getTodoItems = () => {
