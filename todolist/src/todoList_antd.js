@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import actionCreator from './store/actionCreator';
 import store from './store/index';
 import TodoListUI from './todoListUI';
@@ -36,16 +35,8 @@ class todo_List_antd extends Component {
 	componentDidMount() {
 		// 這裡會放一些 AJAX 來獲取填充 render 內容的資訊
 		// 僅在掛載時會執行一次
-		axios
-			.get('http://127.0.0.1:1337/getFile/json.json')
-			.then((res) => {
-				const action = actionCreator.setItems(res);
-				store.dispatch(action);
-			})
-			.catch(() => {
-				const action = actionCreator.setItems([1, 2, 3]);
-				store.dispatch(action);
-			});
+		const action = actionCreator.initItems();
+		store.dispatch(action); // 利用 thunk 執行本體為 function 的 action
 	}
 }
 export default todo_List_antd;
